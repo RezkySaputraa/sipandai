@@ -1,6 +1,18 @@
+
 import { anggaranDesa } from "@/utils/dataTable";
 import React, { Fragment } from "react";
-export default function BudgetTable({ role }: { role?: string }) {
+export default function BudgetTable({
+  role,
+  year,
+  month,
+  slug
+}: {
+  role?: string;
+  year: number;
+  month: number;
+  slug: string;
+}) {
+
   return (
     <>
       {anggaranDesa.length > 0 ? (

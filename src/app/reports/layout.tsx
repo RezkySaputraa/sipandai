@@ -1,9 +1,11 @@
 import Navbar from "@/components/ui/Navbar";
+import { auth } from "../auth";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const session = await auth()
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar role = {session?.user.role || ""}></Navbar>
       <div>{children}</div>
     </>
   );

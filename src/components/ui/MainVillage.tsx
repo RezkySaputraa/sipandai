@@ -88,7 +88,7 @@ export default function MainVillage({ village }: { village: any }) {
         </h1>
       </div>
 
-      {table ? <BudgetTable></BudgetTable> : <SummaryAi></SummaryAi>}
+      {table ? <BudgetTable year={year} month={month} slug={village.slug}></BudgetTable> : <SummaryAi  year={year} month={month} slug={village.slug}></SummaryAi>}
 
       <Komentar></Komentar>
     </div>

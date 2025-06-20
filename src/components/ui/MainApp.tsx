@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Square from "./Square";
+import Search from "./Search";
 
 export default function MainApp() {
-  const admin = true;
+  const auditor = false;
 
   const dataUser = [
     {
@@ -49,12 +50,35 @@ export default function MainApp() {
     },
   ];
 
+  const dataAuditor = [
+    {
+      title: "Desa Telah di Audit",
+      angka: "13.599",
+      logo: "auditorceklis",
+    },
+    {
+      title: "Desa Sedang di Audit",
+      angka: "5067",
+      logo: "auditorhourglass",
+    },
+    {
+      title: "Desa tidak Submit Laporan",
+      angka: "203",
+      logo: "auditortelat",
+    },
+    {
+      title: "Laporan Masyarakat",
+      angka: "171",
+      logo: "auditorlapor",
+    },
+  ];
+
   return (
     <>
-      {admin && (
+      {/* {!auditor && (
         <>
           <div className="bg-gradient-to-b from-[#E27303] min-h-[70vh]">
-            <div className="flex justify-center items-center gap-5">
+            <div className="flex justify-center items-center gap-5 pt-20">
               <Image
                 src="/assetsweb/Navbar/map.svg"
                 width={30}
@@ -65,40 +89,30 @@ export default function MainApp() {
                 Desa Bati-Bati
               </h1>
             </div>
-            <p className="text-center">
+            <p className="text-center text-gray-200 mt-3 font-semibold">
               Kecamatan Bati Bati, Kabupaten Tanah Laut, Provinsi Kalimantan
               Selatan.
             </p>
             <div className="flex justify-center gap-6">
-              {dataUser.map((item, index) => (
+              {dataAdmin.map((item, index) => (
                 <Square
                   title={item.title}
                   angka={item.angka}
                   logo={item.logo}
                   key={index}
+                  color="text-[#E27303]"
                 ></Square>
               ))}
             </div>
           </div>
         </>
-      )}
+      )} */}
 
-      {!admin && (
+      {!auditor && (
         <>
           <div className="bg-gradient-to-b from-[#08B786] min-h-[70vh]">
-            <div className="flex justify-center items-center pt-15 relative">
-              <input
-                type="text"
-                placeholder="Cari Desa ..."
-                className="p-3 bg-white rounded-xl w-4/12"
-              />
-              <Image
-                src={"/assets/Hero/search.svg"}
-                width={40}
-                height={40}
-                alt="usersearch"
-                className="absolute translate-x-57"
-              ></Image>
+            <div className="w-[30%] mx-auto pt-15">
+              <Search image="/assetsweb/Hero/search.svg"></Search>
             </div>
             <h1 className="text-white font-bold text-center text-5xl mt-10">
               Rekap Dana Desa Nasional Tahun 2025
@@ -110,6 +124,31 @@ export default function MainApp() {
                   angka={item.angka}
                   logo={item.logo}
                   key={index}
+                  color="text-[#08B786]"
+                ></Square>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {auditor && (
+        <>
+          <div className="bg-gradient-to-b from-[#0093DD] min-h-[70vh]">
+            <div className="w-[30%] mx-auto pt-15">
+              <Search image="/assetsweb/Hero/search.svg"></Search>
+            </div>
+            <h1 className="text-white font-bold text-center text-5xl mt-10">
+              Audit Anggaran dan Realisasi Dana Desa
+            </h1>
+            <div className="flex justify-center gap-6">
+              {dataAuditor.map((item, index) => (
+                <Square
+                  title={item.title}
+                  angka={item.angka}
+                  logo={item.logo}
+                  key={index}
+                  color="text-[#0093DD]"
                 ></Square>
               ))}
             </div>

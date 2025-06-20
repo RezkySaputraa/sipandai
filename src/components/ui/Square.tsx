@@ -4,10 +4,12 @@ export default function Square({
   title,
   angka,
   logo,
+  color,
 }: {
   title: string;
-  angka: string;
+  angka?: string;
   logo: string;
+  color: string;
 }) {
   return (
     <>
@@ -18,8 +20,8 @@ export default function Square({
           height={50}
           alt="home"
         ></Image>
-        <h1 className="font-semibold text-lg">{title}</h1>
-        <h2 className="font-bold mt-6 text-3xl">{angka}</h2>
+        <h1 className={`font-bold text-lg mt-3 ${color}`}>{title}</h1>
+        <h2 className="font-bold mt-3 text-3xl text-gray-500">{angka}</h2>
       </div>
     </>
   );

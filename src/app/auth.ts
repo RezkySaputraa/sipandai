@@ -44,13 +44,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      if (isLoggedIn && nextUrl.pathname.startsWith("/login")) {
-        return Response.redirect(new URL("/dashboard", nextUrl));
-      }
-      return true;
-    },
     jwt({ token, user }) {
       if (user) token.role = user.role;
       return token;

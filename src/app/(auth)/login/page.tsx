@@ -1,33 +1,21 @@
-import { signIn } from "@/app/auth";
-import { redirect } from "next/dist/server/api-utils";
+import { auth, signIn } from "@/app/auth";
+import GoogleButton from "@/app/components/auth/GoogleButton";
+import LoginForm from "@/app/components/auth/LoginForm";
+import { redirect } from "next/navigation";
 
-export default function Login() {
+
+export default async function Login() {
+  
+  const session = await auth();
+  if(session){
+    redirect("/");
+  }
   return (
-    <div>
-      <form
-        action={async (formData) => {
-          "use server";
-          await signIn("credentials", formData);
-        }}
-      >
-        <label>
-          Email
-          <input name="email" type="email" />
-        </label>
-        <label>
-          Password
-          <input name="password" type="password" />
-        </label>
-        <button>Sign In</button>
-      </form>
-      <form
-        action={async () => {
-          "use server";
-          await signIn("google",{redirectTo: "/"});
-        }}
-      >
-        <button type="submit">Signin with Google</button>
-      </form>
+    <div className="flex justify-center h-screen items-center">
+      <div >
+        <LoginForm />
+        <GoogleButton/>
+      </div>
     </div>
   );
 }

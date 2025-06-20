@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import BudgetTable from "./BudgetTable";
+import Komentar from "./Komentar";
+import SummaryAi from "./SummaryAi";
 
 export default function MainVillage({ village }: { village: any }) {
   const [table, setTable] = useState(true);
@@ -10,21 +12,25 @@ export default function MainVillage({ village }: { village: any }) {
 
   console.log(year);
   return (
-    <div className="w-9/12 bg-white rounded-xl p-4">
+    <div className="w-9/12 bg-white rounded-xl p-4 mb-4">
       <h1 className="font-bold text-xl text-[#16604B]">
         Total Anggaran & Realisasi {village.name}
       </h1>
-      <p className=" text-gray-500">Terakhir diperbaharui : </p>
-      <button className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1">
-        Kembali
-      </button>
-      <button className="bg-[#5DAB2C] w-1/12 text-white rounded-lg font-semibold p-1">
-        Unduh
-      </button>
-      <button className="bg-[#E20303] w-1/12 text-white rounded-lg font-semibold p-1">
-        Lapor
-      </button>
-      <div>
+      <p className=" text-gray-500 py-4">
+        Terakhir diperbaharui : 20 Desember 2022
+      </p>
+      <div className="flex gap-2">
+        <button className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1">
+          Kembali
+        </button>
+        <button className="bg-[#5DAB2C] w-1/12 text-white rounded-lg font-semibold p-1">
+          Unduh
+        </button>
+        <button className="bg-[#E20303] w-1/12 text-white rounded-lg font-semibold p-1">
+          Lapor
+        </button>
+      </div>
+      <div className="flex gap-2 py-4">
         <select
           name="year"
           id="year"
@@ -63,12 +69,28 @@ export default function MainVillage({ village }: { village: any }) {
         </select>
       </div>
 
-      <div className="flex gap-3">
-        <h1 onClick={() => setTable(true)}>Data Tabel</h1>
-        <h1 onClick={() => setTable(false)}>AI Summary</h1>
+      <div className="flex gap-3 mb-4">
+        <h1
+          onClick={() => setTable(true)}
+          className={`${
+            table && "text-[#0093DD]"
+          } font-semibold cursor-pointer`}
+        >
+          Data Tabel
+        </h1>
+        <h1
+          onClick={() => setTable(false)}
+          className={`${
+            !table && "text-[#0093DD]"
+          } font-semibold cursor-pointer`}
+        >
+          AI Summary
+        </h1>
       </div>
 
-      {table && <BudgetTable></BudgetTable>}
+      {table ? <BudgetTable></BudgetTable> : <SummaryAi></SummaryAi>}
+
+      <Komentar></Komentar>
     </div>
   );
 }

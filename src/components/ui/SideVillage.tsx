@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Search from "./Search";
+import Link from "next/link";
 
 export default function SideVillage({village} : {village:any} ) {
   return (
@@ -21,7 +22,7 @@ export default function SideVillage({village} : {village:any} ) {
           </p>
         </div>
       </div>
-      <div>
+      <div className="mt-5">
         <Search image="/assetsweb/Village/search.svg"></Search>
       </div>
 
@@ -36,7 +37,7 @@ export default function SideVillage({village} : {village:any} ) {
           ></Image>
           <h1 className="font-semibold text-md">Anggaran & Realisasi Desa</h1>
         </div>
-        <div className="flex gap-2 bg-white p-3 rounded-lg">
+        <Link href="/reports/1" className="flex gap-2 bg-white p-3 rounded-lg">
           <Image
             src="/assetsweb/Village/laporan.svg"
             alt="anggaran"
@@ -44,7 +45,7 @@ export default function SideVillage({village} : {village:any} ) {
             height={25}
           ></Image>
           <h1 className="font-semibold text-md">Laporan</h1>
-        </div>
+        </Link>
       </div>
     </div>
   );

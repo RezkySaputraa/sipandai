@@ -3,15 +3,18 @@
 import { useState } from "react";
 import BudgetTable from "./BudgetTable";
 
-export default function MainVillage() {
+export default function MainVillage({ village }: { village: any }) {
   const [table, setTable] = useState(true);
+  const [year, setYear] = useState(2025);
+  const [month, setmonth] = useState(2);
 
+  console.log(year);
   return (
     <div className="w-9/12 bg-white rounded-xl p-4">
       <h1 className="font-bold text-xl text-[#16604B]">
-        Total Anggaran & Realisasi Desa Bati-Bati
+        Total Anggaran & Realisasi {village.name}
       </h1>
-      <p className=" text-gray-500">Terakhir diperbaharui : 20 Desember 2022</p>
+      <p className=" text-gray-500">Terakhir diperbaharui : </p>
       <button className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1">
         Kembali
       </button>
@@ -26,6 +29,10 @@ export default function MainVillage() {
           name="year"
           id="year"
           className="p-2 bg-gray-100 rounded-lg w-2/12"
+          onChange={(e) => {
+            setYear(Number(e.target.value));
+          }}
+          defaultValue={year}
         >
           <option value="2025">2025</option>
           <option value="2024">2024</option>
@@ -36,19 +43,23 @@ export default function MainVillage() {
           name="month"
           id="month"
           className="p-2 bg-gray-100 rounded-lg w-2/12"
+          onChange={(e) => {
+            setmonth(Number(e.target.value));
+          }}
+          defaultValue={month}
         >
-          <option value="Januari">Januari</option>
-          <option value="Februari">Februari</option>
-          <option value="Maret">Maret</option>
-          <option value="April">April</option>
-          <option value="Mei">Mei</option>
-          <option value="Juni">Juni</option>
-          <option value="Juli">Juli</option>
-          <option value="Agustus">Agustus</option>
-          <option value="September">September</option>
-          <option value="Oktober">Oktober</option>
-          <option value="November">November</option>
-          <option value="Desember">Desember</option>
+          <option value="1">Januari</option>
+          <option value="2">Februari</option>
+          <option value="3">Maret</option>
+          <option value="4">April</option>
+          <option value="5">Mei</option>
+          <option value="6">Juni</option>
+          <option value="7">Juli</option>
+          <option value="8">Agustus</option>
+          <option value="9">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
         </select>
       </div>
 

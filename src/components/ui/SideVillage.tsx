@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Search from "./Search";
 
-export default function SideVillage() {
+export default function SideVillage({village} : {village:any} ) {
   return (
     <div className="w-3/12 pr-5">
       <div className="flex items-start gap-2">
@@ -13,10 +13,10 @@ export default function SideVillage() {
         ></Image>
         <div>
           <h1 className="font-semibold text-[#16604B] text-3xl">
-            Desa Bati-Bati
+           {village.name}
           </h1>
           <p className=" text-gray-600">
-            Kecamatan Bati Bati, Kabupaten Tanah Laut, Provinsi Kalimantan
+            Kecamatan {village.Kecamatan}, Kabupaten {village.Kabupaten}, Provinsi {village.provinsi}
             Selatan.
           </p>
         </div>

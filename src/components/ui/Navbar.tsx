@@ -24,7 +24,7 @@ export default function Navbar() {
             width={100}
             height={100}
           ></Image>
-          <h1 className="font-bold text-white w-60">
+          <h1 className="font-bold text-white w-60 hidden md:block">
             SISTEM PENGAWASAN ANGGARAN DANA DESA
           </h1>
         </div>

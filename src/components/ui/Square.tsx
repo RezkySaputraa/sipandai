@@ -13,7 +13,7 @@ export default function Square({
 }) {
   return (
     <>
-      <div className="bg-white w-2/12 flex flex-col justify-center items-center rounded-xl mt-14 py-6">
+      <div className="bg-white w-[250px] flex flex-col justify-center items-center rounded-xl mt-10 py-6">
         <Image
           src={`/assetsweb/Hero/${logo}.svg`}
           width={50}

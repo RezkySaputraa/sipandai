@@ -111,22 +111,37 @@ export default function MainApp() {
       {!auditor && (
         <>
           <div className="bg-gradient-to-b from-[#08B786] min-h-[70vh]">
-            <div className="w-[30%] mx-auto pt-15">
+            <div className="w-[90%] md:w-[30%] mx-auto pt-15">
               <Search image="/assetsweb/Hero/search.svg"></Search>
             </div>
-            <h1 className="text-white font-bold text-center text-5xl mt-10">
+            <h1 className="text-white font-bold text-center text-xl md:text-5xl mt-10 ">
               Rekap Dana Desa Nasional Tahun 2025
             </h1>
-            <div className="flex justify-center gap-6">
-              {dataUser.map((item, index) => (
-                <Square
-                  title={item.title}
-                  angka={item.angka}
-                  logo={item.logo}
-                  key={index}
-                  color="text-[#08B786]"
-                ></Square>
-              ))}
+            <div className="flex justify-center gap-1 md:gap-6 flex-wrap">
+              <Square
+                title={"Jumlah Desa"}
+                angka={"83.971"}
+                logo={"home"}
+                color="text-[#08B786]"
+              ></Square>
+              <Square
+                title={"Total Dana Desa 2025"}
+                angka={"Rp. 71 T"}
+                logo={"chart"}
+                color="text-[#08B786]"
+              ></Square>
+              <Square
+                title={"Total Pendapatan Desa 2025"}
+                angka={"Rp. 131.8 T"}
+                logo={"money"}
+                color="text-[#08B786]"
+              ></Square>
+              <Square
+                title={"Total Belanja Desa 2025"}
+                angka={"Rp. 246 T"}
+                logo={"bag"}
+                color="text-[#08B786]"
+              ></Square>
             </div>
           </div>
         </>

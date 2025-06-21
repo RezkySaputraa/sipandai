@@ -1,27 +1,32 @@
-
 import { anggaranDesa } from "@/utils/dataTable";
 import React, { Fragment } from "react";
+
+const getColor = (role: any) => {
+  if (role === "auditor") {
+    return "bg-[#0093DD]";
+  } else if (role === "admin") {
+    return "bg-[#E27303]";
+  } else {
+    return "bg-[#08B786]";
+  }
+};
+
 export default function BudgetTable({
   role,
   year,
   month,
-  slug
+  slug,
 }: {
   role?: string;
   year: number;
   month: number;
   slug: string;
 }) {
-
   return (
     <>
       {anggaranDesa.length > 0 ? (
         <table className="w-full text-white rounded-lg overflow-hidden border-collapse">
-          <thead
-            className={`${
-              role === "auditor" ? "bg-[#0093DD]" : "bg-[#08B786]"
-            }`}
-          >
+          <thead className={`${getColor(role)}`}>
             <tr>
               <th className="border border-white py-1" rowSpan={2}>
                 Desa Bati-Bati

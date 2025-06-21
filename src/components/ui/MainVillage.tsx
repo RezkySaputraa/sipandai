@@ -6,7 +6,7 @@ import Komentar from "./Komentar";
 import SummaryAi from "./SummaryAi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { getColor, textColor } from "@/utils/color";
+import { textColor } from "@/utils/color";
 import handleExcel from "@/utils/excel";
 import { postBudgetPeriod } from "@/action/postBudgetPeriod";
 
@@ -76,7 +76,10 @@ export default function MainVillage({
             Terakhir diperbaharui : 20 Desember 2022
           </p>
           <div className="flex gap-2">
-            <button className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1">
+            <button
+              className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1"
+              onClick={handleBack}
+            >
               Kembali
             </button>
             <button
@@ -94,43 +97,58 @@ export default function MainVillage({
               </button>
             )}
           </div>
-          <div className="flex gap-2 py-4">
-            <select
-              name="year"
-              id="year"
-              className="p-2 bg-gray-100 rounded-lg w-2/12"
-              onChange={(e) => {
-                setYear(Number(e.target.value));
-              }}
-              defaultValue={year}
-            >
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-            </select>
-            <select
-              name="month"
-              id="month"
-              className="p-2 bg-gray-100 rounded-lg w-2/12"
-              onChange={(e) => {
-                setmonth(Number(e.target.value));
-              }}
-              defaultValue={month}
-            >
-              <option value="1">Januari</option>
-              <option value="2">Februari</option>
-              <option value="3">Maret</option>
-              <option value="4">April</option>
-              <option value="5">Mei</option>
-              <option value="6">Juni</option>
-              <option value="7">Juli</option>
-              <option value="8">Agustus</option>
-              <option value="9">September</option>
-              <option value="10">Oktober</option>
-              <option value="11">November</option>
-              <option value="12">Desember</option>
-            </select>
+          <div className="flex justify-between gap-2 py-4">
+            <div className="flex gap-4">
+              <select
+                name="year"
+                id="year"
+                className="p-2 bg-gray-100 rounded-lg"
+                onChange={(e) => {
+                  setYear(Number(e.target.value));
+                }}
+                defaultValue={year}
+              >
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+              </select>
+              <select
+                name="month"
+                id="month"
+                className="p-2 bg-gray-100 rounded-lg"
+                onChange={(e) => {
+                  setmonth(Number(e.target.value));
+                }}
+                defaultValue={month}
+              >
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+              </select>
+            </div>
+            {role === "auditor" && (
+              <div>
+                <select
+                  name="status"
+                  id="status"
+                  className="p-2 bg-gray-100 rounded-lg"
+                >
+                  <option value="2025">Sedang di Audit</option>
+                  <option value="2024">Sedang di Proses</option>
+                  <option value="2023">Selesai</option>
+                </select>
+              </div>
+            )}
           </div>
 
           <div className="flex gap-3 mb-4">
@@ -174,12 +192,14 @@ export default function MainVillage({
 
       {role === "admin" && (
         <div className="w-9/12 bg-white rounded-xl p-4 mb-4">
-          <h1 className="font-bold text-xl text-[#16604B]">Laporan APDes</h1>
+          <h1 className={`font-bold text-xl ${textColor(role)}`}>
+            Laporan APDes
+          </h1>
 
           {input ? (
             <>
               <button
-                className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1 my-3"
+                className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1 my-3 cursor-pointer"
                 onClick={() => setInput(false)}
               >
                 Kembali
@@ -193,26 +213,26 @@ export default function MainVillage({
               ></BudgetTable>
 
               <div className="flex gap-3 justify-end mt-3">
-                <button className="bg-[#E20303] w-1/12 text-white rounded-lg font-semibold p-1">
+                <button className="bg-[#E20303] w-1/12 text-white rounded-lg font-semibold p-1 cursor-pointer">
                   Batal
                 </button>
-                <button className="bg-[#186ac6] w-1/12 text-white rounded-lg font-semibold p-1">
+                <button className="bg-[#186ac6] w-1/12 text-white rounded-lg font-semibold p-1 cursor-pointer">
                   Simpan
                 </button>
               </div>
             </>
           ) : (
             <>
-              <div>
+              <div className="flex gap-3">
                 <button
-                  className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1 my-3"
+                  className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1 my-3 cursor-pointer"
                   onClick={handleBack}
                 >
                   Kembali
                 </button>
 
                 <button
-                  className="bg-[#1ed163] w-2/12 text-white rounded-lg font-semibold p-1 my-3"
+                  className="bg-[#5DAB2C] w-2/12 text-white rounded-lg font-semibold p-1 my-3 cursor-pointer"
                   onClick={() => setInputModal(true)}
                 >
                   Tambah Laporan
@@ -222,7 +242,7 @@ export default function MainVillage({
               <select
                 name="year"
                 id="year"
-                className="p-2 bg-gray-100 rounded-lg w-2/12"
+                className="p-2 bg-gray-200 rounded-lg w-2/12 my-3"
                 onChange={(e) => {
                   setYear(Number(e.target.value));
                 }}
@@ -239,8 +259,8 @@ export default function MainVillage({
                   <tr className="border-2 border-gray-300">
                     <th className="border-2 border-gray-300">No</th>
                     <th className="border-2 border-gray-300">Aksi</th>
-                    <th className="border-2 border-gray-300">Bulan</th>
-                    <th className="border-2 border-gray-300">Tanggal Submit</th>
+                    <th className="border-2 border-gray-300">Judul Laporan</th>
+                    <th className="border-2 border-gray-300">Last Update</th>
                     <th className="border-2 border-gray-300 p-3">Finalisasi</th>
                   </tr>
                 </thead>
@@ -333,7 +353,7 @@ export default function MainVillage({
 
               <div className="flex flex-col">
                 <label className="block font-semibold text-sm md:text-lg">
-                  Tahun Anggaran
+                  Bulan Anggaran
                 </label>
                 <select
                   name="month"

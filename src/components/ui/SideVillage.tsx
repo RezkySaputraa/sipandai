@@ -98,18 +98,33 @@ export default function SideVillage({
                 Anggaran & Realisasi Desa
               </h1>
             </div>
-            <Link
-              href="/reports"
-              className="flex gap-2 bg-white p-3 rounded-lg"
-            >
-              <Image
-                src="/assetsweb/Village/laporan.svg"
-                alt="anggaran"
-                width={25}
-                height={25}
-              ></Image>
-              <h1 className="font-semibold text-md">Laporan</h1>
-            </Link>
+            {role === "auditor" ? (
+              <Link
+                href="/reports"
+                className="flex gap-2 bg-white p-3 rounded-lg"
+              >
+                <Image
+                  src="/assetsweb/Village/laporan.svg"
+                  alt="anggaran"
+                  width={25}
+                  height={25}
+                ></Image>
+                <h1 className="font-semibold text-md">Laporan</h1>
+              </Link>
+            ) : (
+              <Link
+                href="/reports/1"
+                className="flex gap-2 bg-white p-3 rounded-lg"
+              >
+                <Image
+                  src="/assetsweb/Village/laporan.svg"
+                  alt="anggaran"
+                  width={25}
+                  height={25}
+                ></Image>
+                <h1 className="font-semibold text-md">Laporan</h1>
+              </Link>
+            )}
           </div>
         </div>
       )}

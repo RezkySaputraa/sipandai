@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Square from "./Square";
 import Search from "./Search";
+import { useRouter } from "next/navigation";
 
 export default function MainApp({ role }: { role: string }) {
   const dataUser = [
@@ -27,10 +30,6 @@ export default function MainApp({ role }: { role: string }) {
   ];
 
   const dataAdmin = [
-    {
-      title: "Masuk",
-      logo: "admindirect",
-    },
     {
       title: "Realisasi Pendapatan 2025",
       angka: "98%",
@@ -71,6 +70,12 @@ export default function MainApp({ role }: { role: string }) {
     },
   ];
 
+  const router = useRouter();
+
+  const handleDirect = () => {
+    router.push(`/village/bati-bati`);
+  };
+
   return (
     <>
       {role === "admin" && (
@@ -92,6 +97,12 @@ export default function MainApp({ role }: { role: string }) {
               Selatan.
             </p>
             <div className="flex justify-center gap-6">
+              <Square
+                title={"Masuk"}
+                logo={"admindirect"}
+                color="text-[#E27303]"
+                onClick={handleDirect}
+              ></Square>
               {dataAdmin.map((item, index) => (
                 <Square
                   title={item.title}
@@ -109,10 +120,10 @@ export default function MainApp({ role }: { role: string }) {
       {role === "user" && (
         <>
           <div className="bg-gradient-to-b from-[#08B786] min-h-[70vh]">
-            <div className="w-[90%] md:w-[30%] mx-auto pt-15">
+            <div className="w-[90%] md:w-[30%] mx-auto pt-10">
               <Search image="/assetsweb/Hero/search.svg"></Search>
             </div>
-            <h1 className="text-white font-bold text-center text-xl md:text-5xl mt-10 ">
+            <h1 className="text-white font-bold text-center text-2xl md:text-5xl mt-10 ">
               Rekap Dana Desa Nasional Tahun 2025
             </h1>
             <div className="flex justify-center gap-1 md:gap-6 flex-wrap">

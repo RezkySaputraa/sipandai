@@ -1,30 +1,23 @@
-"use client";
-
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 export default function Square({
   title,
   angka,
   logo,
   color,
+  onClick,
 }: {
   title: string;
   angka?: string;
   logo: string;
   color: string;
+  onClick?: () => void;
 }) {
-  const router = useRouter();
-
-  const handleDirect = () => {
-    router.push(`/village/bati-bati`);
-  };
-
   return (
     <>
       <div
-        className="bg-white w-[250px] flex flex-col justify-center items-center rounded-xl mt-10 py-6"
-        onClick={handleDirect}
+        className="bg-white w-[250px] flex flex-col justify-center items-center rounded-xl mt-10 py-6 cursor-pointer"
+        onClick={onClick}
       >
         <Image
           src={`/assetsweb/Hero/${logo}.svg`}

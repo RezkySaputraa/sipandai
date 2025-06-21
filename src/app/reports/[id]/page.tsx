@@ -1,5 +1,6 @@
 "use client";
 
+import { getColor } from "@/utils/color";
 import { useRouter } from "next/navigation";
 
 export default function LaporanAnda() {
@@ -17,7 +18,7 @@ export default function LaporanAnda() {
       >
         Kembali
       </button>
-      <h1 className="font-semibold text-2xl py-6">Laporan Pengguna</h1>
+      <h1 className="font-semibold text-2xl py-6">Laporan User</h1>
       <div className="bg-white rounded-lg p-5 w-80%">
         <table className="w-full">
           <thead>
@@ -25,7 +26,9 @@ export default function LaporanAnda() {
               <th className="border-2 border-gray-300">No</th>
               <th className="border-2 border-gray-300">Nama Desa</th>
               <th className="border-2 border-gray-300">Judul Dugaan</th>
-              <th className="border-2 border-gray-300">Tanggal</th>
+              <th className="border-2 border-gray-300">Tahun</th>
+              <th className="border-2 border-gray-300">Bulan</th>
+              <th className="border-2 border-gray-300">Tanggal Melapor</th>
               <th className="border-2 border-gray-300 p-3">Status</th>
             </tr>
           </thead>
@@ -34,13 +37,13 @@ export default function LaporanAnda() {
               <td className="border-2 border-gray-300">No</td>
               <td className="border-2 border-gray-300">Nama Desa</td>
               <td className="border-2 border-gray-300">Judul Dugaan</td>
-              <td className="border-2 border-gray-300">Tanggal</td>
+              <td className="border-2 border-gray-300">Tahun</td>
+              <td className="border-2 border-gray-300">Bulan</td>
+              <td className="border-2 border-gray-300">Tanggal Melapor</td>
               <td className="border-2 border-gray-300 p-3">
-                <select name="" id="" className="p-2 bg-stone-300 rounded-lg">
-                  <option value="proses">Sedang Diproses</option>
-                  <option value="proses">Sedang Diaudit</option>
-                  <option value="proses">Selesai</option>
-                </select>
+                <span className={`bg-indigo-400 py-2 px-5 rounded-lg`}>
+                  Sedang diproses
+                </span>
               </td>
             </tr>
           </tbody>

@@ -22,7 +22,7 @@ export default function Search({ image }: { image: string }) {
           }}
           type="text"
           placeholder="Cari Desa ..."
-          className="p-3 bg-white rounded-xl w-full"
+          className="p-3 bg-white rounded-xl w-full outline-none"
         />
         <Image
           onClick={handleOnClick}

@@ -45,6 +45,7 @@ export default function MainVillage({
         console.error("isi dulu bosku.");
         return { success: false, message: "Semua field harus diisi." };
       }
+      
       return await postBudgetPeriod({
         periodName: name,
         year,
@@ -72,7 +73,8 @@ export default function MainVillage({
         year,
         month,
         villageSlug: slug,
-        description
+        description,
+        userId
       })
     },
     null
@@ -240,7 +242,8 @@ export default function MainVillage({
                 <button className="bg-[#E20303] w-1/12 text-white rounded-lg font-semibold p-1 cursor-pointer">
                   Batal
                 </button>
-                <button className="bg-[#186ac6] w-1/12 text-white rounded-lg font-semibold p-1 cursor-pointer">
+                <button className="bg-[#186ac6] w-1/12 text-white rounded-lg font-semibold p-1 cursor-pointer" 
+                  onClick={() => setModal(false)}>
                   Simpan
                 </button>
               </div>

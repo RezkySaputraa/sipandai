@@ -1,8 +1,31 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function LaporanAnda() {
   const router = useRouter();
+  const [tableData, setTableData] = useState<any>();
+
+  useEffect(() => {
+      const fetchDataTable = async () => {
+        const response = await fetch(`/api/village/laporan`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch budget data");
+        }
+  
+        const result = await response.json();
+        setTableData(result.data);
+      };
+      fetchDataTable();
+    }, []);
+    
+    if (!tableData) {
+      return (
+        <div className="text-black">
+          <h1>Loading...</h1>
+        </div>
+      );
+    }
 
   const handleBack = () => {
     router.back();
@@ -26,24 +49,24 @@ export default function LaporanAnda() {
               <th className="border-2 border-gray-300">Judul Dugaan</th>
               <th className="border-2 border-gray-300">Tahun</th>
               <th className="border-2 border-gray-300">Bulan</th>
-              <th className="border-2 border-gray-300">Tanggal Melapor</th>
-              <th className="border-2 border-gray-300 p-3">Status</th>
+              <th className="border-2 border-gray-300">status</th>
             </tr>
           </thead>
           <tbody className="text-center">
-            <tr className="border-2 border-gray-300">
-              <td className="border-2 border-gray-300">No</td>
-              <td className="border-2 border-gray-300">Nama Desa</td>
-              <td className="border-2 border-gray-300">Judul Dugaan</td>
-              <td className="border-2 border-gray-300">Tahun</td>
-              <td className="border-2 border-gray-300">Bulan</td>
-              <td className="border-2 border-gray-300">Tanggal Melapor</td>
-              <td className="border-2 border-gray-300 p-3">
-                <span className={`bg-indigo-400 py-2 px-5 rounded-lg`}>
-                  Sedang diproses
-                </span>
-              </td>
-            </tr>
+            {tableData.map((item: any, index: number) => (
+              <tr className="border-2 border-gray-300" key={index}>
+                <td className="border-2 border-gray-300">{index + 1}</td>
+                <td className="border-2 border-gray-300">{item.village.name}</td>
+                <td className="border-2 border-gray-300">{item.title}</td>
+                <td className="border-2 border-gray-300">{item.year}</td>
+                <td className="border-2 border-gray-300">{item.month}</td>
+                <td className="border-2 border-gray-300 p-3">
+                  <span className={`bg-indigo-400 py-2 px-5 rounded-lg`}>
+                    Sedang diproses
+                  </span>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

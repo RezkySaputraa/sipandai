@@ -1,5 +1,6 @@
+"use client"
 import Image from "next/image";
-import { useEffect } from "react";
+import { useState } from "react";
 
 export default function SummaryAi({
   role,
@@ -12,11 +13,50 @@ export default function SummaryAi({
   month: number;
   slug: string;
 }) {
-  const [summary, setSummary] = setState("");
-  
-  useEffect(() => {
-  });
-  
+  const [summary, setSummary] = useState("Belum Ada Ringkasan");
+
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const sendMessage = async (): Promise<void> => {
+    if (!message.trim()) return;
+    setLoading(true);
+    setSummary("");
+
+    try {
+      const res = await fetch(
+        `/api/village/AI?village=${slug}&year=${year}&month=${month}&role=${role}&message=${message}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: message,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP error: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setSummary(data.summary || "Tidak ada ringkasan yang dihasilkan");
+    } catch (error) {
+      console.error("Error:", error);
+      setSummary(
+        `Error: ${
+          error instanceof Error ? error.message : "Failed to get response"
+        }`
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+  function handleSearch(term: string) {
+    setMessage(term);
+  }
 
   return (
     <>
@@ -32,15 +72,19 @@ export default function SummaryAi({
             Ringkasan Pendapatan Desa {slug} di tahun 2025
           </h1>
         </div>
-        <p className="text-gray-600 mt-2">Belum Ada Ringkasan</p>
-      </div>
+        {loading ? <h1>LOADING...</h1> : <p className="text-gray-600 mt-2">{summary}</p> }
+        </div>
       <div className="mt-4 relative">
         <input
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
           type="text"
           className="p-3 rounded-xl border-2 border-gray-200 w-full"
           placeholder="Cari tau menggunakan AI"
         />
         <Image
+          onClick={sendMessage}
           src={"/assetsweb/Village/VillageMain/submit.svg"}
           alt="ai"
           width={30}
@@ -51,7 +95,3 @@ export default function SummaryAi({
     </>
   );
 }
-function setState(arg0: string): [any, any] {
-  throw new Error("Function not implemented.");
-}
-

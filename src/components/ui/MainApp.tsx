@@ -149,7 +149,7 @@ export default function MainApp({ role }: { role: string }) {
         <>
           <div className="bg-gradient-to-b from-[#0093DD] min-h-[70vh]">
             <div className="w-[30%] mx-auto pt-15">
-              <Search image="/assetsweb/Hero/search.svg"></Search>
+              <Search image="/assetsweb/Hero/auditorsearch.svg"></Search>
             </div>
             <h1 className="text-white font-bold text-center text-5xl mt-10">
               Audit Anggaran dan Realisasi Dana Desa

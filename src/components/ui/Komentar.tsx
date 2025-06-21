@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Netizen from "./Netizen";
+import { getColor } from "@/utils/color";
 
-export default function Komentar() {
+export default function Komentar({ role }: { role: string }) {
   return (
     <div>
       <div>
@@ -22,7 +23,11 @@ export default function Komentar() {
       </div>
       <div className="flex gap-4 justify-end">
         <button className="font-semibold">Batal</button>
-        <button className="font-semibold text-white bg-[#08B786] rounded-lg p-2">
+        <button
+          className={`font-semibold text-white ${getColor(
+            role
+          )} rounded-lg p-2`}
+        >
           Komentar
         </button>
       </div>

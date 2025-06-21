@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut } from "@/app/auth";
+import { getColor } from "@/utils/color";
 import { sign } from "crypto";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,11 +16,8 @@ export default function Navbar({ role }: { role: string }) {
 
   return (
     <>
-      {/* nanti dirubah warna sesuai auth */}
       <div
-        className={`${
-          role === "user" ? "bg-[#08B786]" : "bg-[#E27303]"
-        } flex justify-between px-7 relative`}
+        className={`${getColor(role)} flex justify-between px-7 relative`}
         onClick={handleModal}
       >
         <div className="flex items-center gap-3">

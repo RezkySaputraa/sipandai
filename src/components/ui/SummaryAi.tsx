@@ -85,7 +85,7 @@ export default function SummaryAi({
         {loading ? (
           <h1>LOADING...</h1>
         ) : (
-          <p className="text-gray-600 mt-2">{summary}</p>
+          <p className="text-gray-600 mt-2 text-lg">{summary}</p>
         )}
       </div>
       <div className="mt-4 relative">

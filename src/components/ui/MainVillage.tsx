@@ -19,7 +19,7 @@ export default function MainVillage({
 }) {
   const [table, setTable] = useState(true);
   const [year, setYear] = useState(2025);
-  const [month, setmonth] = useState(2);
+  const [month, setmonth] = useState(1);
   const [input, setInput] = useState(false);
   const [modal, setModal] = useState(false);
   const [listTable, setListTable] = useState<any>();
@@ -72,10 +72,7 @@ export default function MainVillage({
           <h1 className={`font-bold text-xl ${textColor(role)}`}>
             Total Anggaran & Realisasi {village.name}
           </h1>
-          <p className=" text-gray-500 py-4">
-            Terakhir diperbaharui : 20 Desember 2022
-          </p>
-          <div className="flex gap-2">
+          <div className="flex gap-2 mt-5">
             <button
               className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1"
               onClick={handleBack}
@@ -142,7 +139,9 @@ export default function MainVillage({
                   name="status"
                   id="status"
                   className="p-2 bg-gray-100 rounded-lg"
+                  defaultValue={"Pilih Status"}
                 >
+                  <option value="2025" className="hidden">Pilih Status</option>
                   <option value="2025">Sedang di Audit</option>
                   <option value="2024">Sedang di Proses</option>
                   <option value="2023">Selesai</option>

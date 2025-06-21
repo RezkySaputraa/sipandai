@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
-import { number } from "zod/v4";
 
 export async function POST(request: NextRequest) {
   try {

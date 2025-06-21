@@ -9,6 +9,7 @@ export default function MainVillage({ village }: { village: any }) {
   const [table, setTable] = useState(true);
   const [year, setYear] = useState(2025);
   const [month, setmonth] = useState(2);
+  
 
   console.log(year);
   return (

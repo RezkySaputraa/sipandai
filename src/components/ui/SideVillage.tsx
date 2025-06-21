@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Search from "./Search";
 import Link from "next/link";
+import { textColor } from "@/utils/color";
 
 export default function SideVillage({
   village,
@@ -50,14 +51,23 @@ export default function SideVillage({
       {role !== "admin" && (
         <div className="w-3/12 pr-5">
           <div className="flex items-start gap-2">
-            <Image
-              src="/assetsweb/Village/maps.svg"
-              width={25}
-              height={25}
-              alt="map"
-            ></Image>
+            {role === "auditor" ? (
+              <Image
+                src="/assetsweb/Village/auditormap.svg"
+                width={25}
+                height={25}
+                alt="map"
+              ></Image>
+            ) : (
+              <Image
+                src="/assetsweb/Village/maps.svg"
+                width={25}
+                height={25}
+                alt="map"
+              ></Image>
+            )}
             <div>
-              <h1 className="font-semibold text-[#16604B] text-3xl">
+              <h1 className={`font-semibold ${textColor(role)} text-3xl`}>
                 {village.name}
               </h1>
               <p className=" text-gray-600">
@@ -68,7 +78,11 @@ export default function SideVillage({
             </div>
           </div>
           <div className="mt-5">
-            <Search image="/assetsweb/Village/search.svg"></Search>
+            {role === "auditor" ? (
+              <Search image="/assetsweb/Hero/auditorsearch.svg"></Search>
+            ) : (
+              <Search image="/assetsweb/Village/search.svg"></Search>
+            )}
           </div>
 
           <h1 className="font-bold text-2xl my-5">Subjek</h1>

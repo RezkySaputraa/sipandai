@@ -1,15 +1,6 @@
+import { getColor } from "@/utils/color";
 import { anggaranDesa } from "@/utils/dataTable";
 import React, { Fragment } from "react";
-
-const getColor = (role: any) => {
-  if (role === "auditor") {
-    return "bg-[#0093DD]";
-  } else if (role === "admin") {
-    return "bg-[#E27303]";
-  } else {
-    return "bg-[#08B786]";
-  }
-};
 
 export default function BudgetTable({
   role,

@@ -6,6 +6,8 @@ import Komentar from "./Komentar";
 import SummaryAi from "./SummaryAi";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { getColor, textColor } from "@/utils/color";
+import handleExcel from "@/utils/excel";
 
 export default function MainVillage({
   village,
@@ -30,8 +32,8 @@ export default function MainVillage({
   return (
     <>
       {role !== "admin" && (
-        <div className="w-9/12 bg-white rounded-xl p-4 mb-4">
-          <h1 className="font-bold text-xl text-[#16604B]">
+        <div className="w-9/12 bg-white rounded-xl p-4 pb-5">
+          <h1 className={`font-bold text-xl ${textColor(role)}`}>
             Total Anggaran & Realisasi {village.name}
           </h1>
           <p className=" text-gray-500 py-4">
@@ -41,15 +43,20 @@ export default function MainVillage({
             <button className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1">
               Kembali
             </button>
-            <button className="bg-[#5DAB2C] w-1/12 text-white rounded-lg font-semibold p-1">
+            <button
+              className="bg-[#5DAB2C] w-1/12 text-white rounded-lg font-semibold p-1 cursor-pointer"
+              onClick={() => handleExcel()}
+            >
               Unduh
             </button>
-            <button
-              className="bg-[#E20303] w-1/12 text-white rounded-lg font-semibold p-1"
-              onClick={() => setModal(true)}
-            >
-              Lapor
-            </button>
+            {role === "user" && (
+              <button
+                className="bg-[#E20303] w-1/12 text-white rounded-lg font-semibold p-1"
+                onClick={() => setModal(true)}
+              >
+                Lapor
+              </button>
+            )}
           </div>
           <div className="flex gap-2 py-4">
             <select
@@ -94,7 +101,7 @@ export default function MainVillage({
             <h1
               onClick={() => setTable(true)}
               className={`${
-                table && "text-[#0093DD]"
+                table && textColor(role)
               } font-semibold cursor-pointer`}
             >
               Data Tabel
@@ -102,7 +109,7 @@ export default function MainVillage({
             <h1
               onClick={() => setTable(false)}
               className={`${
-                !table && "text-[#0093DD]"
+                !table && textColor(role)
               } font-semibold cursor-pointer`}
             >
               AI Summary
@@ -114,16 +121,18 @@ export default function MainVillage({
               year={year}
               month={month}
               slug={village.slug}
+              role={role}
             ></BudgetTable>
           ) : (
             <SummaryAi
               year={year}
               month={month}
               slug={village.slug}
+              role={role}
             ></SummaryAi>
           )}
 
-          <Komentar></Komentar>
+          <Komentar role={role}></Komentar>
         </div>
       )}
 

@@ -5,8 +5,9 @@ export async function POST(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const village = searchParams.get("village") ?? "";
-    const role = searchParams.get("role") ?? "masyarakat";
-
+    const role = searchParams.get("role") ?? "user";
+    const year = Number(searchParams.get("year")?? 2025);
+    const month =Number(searchParams.get("month")?? 1);
     if (!village) {
       return Response.json(
         { error: "village ID is required" },
@@ -17,6 +18,8 @@ export async function POST(request: NextRequest) {
     const data: any = await prisma.budgetPeriod.findFirst({
       where: {
         villageSlug: village,
+        month : month,
+        year : year
       },
       include: {
         BudgetItem: true,
@@ -31,6 +34,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { message } = await request.json();
+    console.log(message)
     if (!message) {
       return Response.json({ error: "Message is required" }, { status: 400 });
     }
@@ -89,6 +93,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!response?.ok) {
+      console.log(response);
       throw new Error(`HTTP error: ${response?.status}`);
     }
 

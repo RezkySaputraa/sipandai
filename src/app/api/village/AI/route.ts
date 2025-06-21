@@ -4,10 +4,13 @@ import { NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
+    
+    const { message } = await request.json();
     const village = searchParams.get("village") ?? "";
     const role = searchParams.get("role") ?? "user";
     const year = Number(searchParams.get("year")?? 2025);
     const month =Number(searchParams.get("month")?? 1);
+    
     if (!village) {
       return Response.json(
         { error: "village ID is required" },
@@ -32,8 +35,6 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-
-    const { message } = await request.json();
     console.log(message)
     if (!message) {
       return Response.json({ error: "Message is required" }, { status: 400 });

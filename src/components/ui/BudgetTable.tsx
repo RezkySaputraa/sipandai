@@ -16,6 +16,7 @@ export default function BudgetTable({
 }) {
   const [anggaranDesa, setAnggaranDesa] = useState<any>({});
   const [loading, setLoading] = useState(false);
+  
   useEffect(() => {
     const fetchAnggaranDesa = async () => {
       try {
@@ -38,21 +39,28 @@ export default function BudgetTable({
     };
 
     fetchAnggaranDesa();
-  }, [year,month]);
+  }, [year, month]);
 
-  if (loading){
-    return <>
-      <h1>Loading</h1>
-    </>
+  if (loading) {
+    return (
+      <>
+        <h1>Loading</h1>
+      </>
+    );
   }
 
-  if (!anggaranDesa || !anggaranDesa.BudgetItem){
-   return <>
-    <div className="text-black">Not Found</div>
-   </>
+  if (!anggaranDesa || !anggaranDesa.BudgetItem) {
+    return (
+      <>
+        <div className="text-black">Not Found</div>
+      </>
+    );
   }
 
-  const formatCurrency = (amount: number): string => {
+  const formatCurrency = (amount: any): string => {
+    if (typeof amount !== "number") {
+      return ""
+    }
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR",
@@ -60,7 +68,8 @@ export default function BudgetTable({
       maximumFractionDigits: 0,
     }).format(amount);
   };
-const calculatePercentage = (realization: number, budget: number): string => {
+
+  const calculatePercentage = (realization: number, budget: number): string => {
     if (budget === 0) return "0%";
     return `${((realization / budget) * 100).toFixed(1)}%`;
   };
@@ -93,7 +102,6 @@ const calculatePercentage = (realization: number, budget: number): string => {
       let totalBudget = 0;
       let totalRealization = 0;
 
-      console.log( subCategories);
       subCategories.forEach((subItems, subCatCode) => {
         if (subItems[0].subCategory) {
           sectionData.push({
@@ -113,9 +121,9 @@ const calculatePercentage = (realization: number, budget: number): string => {
 
             sectionData.push({
               kode: item.code || "",
-              uraian: item.name, 
-              anggaran: formatCurrency(Number(item.budget)),
-              realisasi: formatCurrency(Number(item.realization)),
+              uraian: item.name,
+              anggaran: Number(item.budget),
+              realisasi: Number(item.realization),
               persen: calculatePercentage(
                 Number(item.realization),
                 Number(item.budget)
@@ -142,83 +150,112 @@ const calculatePercentage = (realization: number, budget: number): string => {
 
   const anggaran = transformBudgetData(anggaranDesa);
 
+  console.log(anggaran);
   return (
     <>
       {anggaran.length > 0 ? (
-        <table className="w-full text-white rounded-lg overflow-hidden border-collapse">
-          <thead className={`${getColor(role)}`}>
-            <tr>
-              <th className="border border-white py-1" rowSpan={2}>
-                Desa Bati-Bati
-              </th>
-              <th className="border border-white  py-1" colSpan={5}>
-                Anggaran & Realisasi Desa Bati-Bati
-              </th>
-            </tr>
-            <tr>
-              <th className="border border-white  py-1" colSpan={5}>
-                2025
-              </th>
-            </tr>
-            <tr>
-              <th className="border border-white py-1">Kode Rekening</th>
-              <th className="border border-white pl-2 text-left  py-1">
-                Uraian
-              </th>
-              <th className="border border-white  py-1">Anggaran (Rp)</th>
-              <th className="border border-white  py-1">Realisasi (Rp)</th>
-              <th className="border border-white  py-1">% Realisasi</th>
-            </tr>
-          </thead>
+        <div>
+          <table className="w-full text-white rounded-lg overflow-hidden border-collapse">
+            <thead className={`${getColor(role)}`}>
+              <tr>
+                <th className="border border-white py-1" rowSpan={2}>
+                  Desa Bati-Bati
+                </th>
+                <th className="border border-white  py-1" colSpan={5}>
+                  Anggaran & Realisasi Desa Bati-Bati
+                </th>
+              </tr>
+              <tr>
+                <th className="border border-white  py-1" colSpan={5}>
+                  2025
+                </th>
+              </tr>
+              <tr>
+                <th className="border border-white py-1">Kode Rekening</th>
+                <th className="border border-white pl-2 text-left  py-1">
+                  Uraian
+                </th>
+                <th className="border border-white  py-1">Anggaran (Rp)</th>
+                <th className="border border-white  py-1">Realisasi (Rp)</th>
+                <th className="border border-white  py-1">% Realisasi</th>
+              </tr>
+            </thead>
 
-          <tbody className="bg-[#E2E8F0] text-black">
-            {anggaran.map((section, index) => (
-              <Fragment key={index}>
-                <tr className="text-center">
-                  <td className="border border-white  py-1">
-                    <b>{section.no}</b>
-                  </td>
-                  <td
-                    className="border text-left border-white pl-2 py-1"
-                    colSpan={4}
-                  >
-                    {section.title}
-                  </td>
-                </tr>
-                {section.data?.map((data, index) => (
-                  <tr className="text-center" key={index}>
-                    <td className="border border-white  py-1">{data.kode}</td>
-                    <td className="border border-white text-left pl-2 py-1">
-                      {data.uraian}
-                    </td>
+            <tbody className="bg-[#E2E8F0] text-black">
+              {anggaran.map((section, index) => (
+                <Fragment key={index}>
+                  <tr className="text-center">
                     <td className="border border-white  py-1">
-                      {data.anggaran}
+                      <b>{section.no}</b>
                     </td>
-                    <td className="border border-white  py-1">
-                      {data.realisasi}
+                    <td
+                      className="border text-left border-white pl-2 py-1"
+                      colSpan={4}
+                    >
+                      {section.title}
                     </td>
-                    <td className="border border-white  py-1">{data.persen}</td>
                   </tr>
-                ))}
-                <tr className="text-center">
-                  <td className="border border-white py-1">
-                    <b>{section.total?.summary}</b>
-                  </td>
-                  <td></td>
-                  <td className="border border-white py-1">
-                    {section.total?.anggaran}
-                  </td>
-                  <td className="border border-white py-1">
-                    {section.total?.realisasi}
-                  </td>
-                  <td className="border border-white py-1">
-                    {section.total?.persen}
-                  </td>
-                </tr>
-              </Fragment>
-            ))}
-          </tbody>
-        </table>
+                  {section.data?.map((data, index) => (
+                    <tr className="text-center" key={index}>
+                      <td className="border border-white  py-1">{data.kode}</td>
+                      <td className="border border-white text-left pl-2 py-1">
+                        {data.uraian}
+                      </td>
+                      <td className="border border-white  py-1">
+                        {role === "admin" ? (
+                          <div>
+                            <input
+                              name="anggaran"
+                              type="text"
+                              placeholder ={formatCurrency(data.anggaran)}
+                              onChange={(e) => {}}
+                            />
+                          </div>
+                        ) : (
+                          formatCurrency(Number(data.anggaran))
+                        )}
+                      </td>
+                      <td className="border border-white  py-1">
+                        {role === "admin" ? (
+                          <div>
+                            <input
+                              name="realisasi"
+                              type="text"
+                              placeholder ={formatCurrency(data.anggaran)}
+                              onChange={(e) => {}}
+                            
+                            />
+                          </div>
+                        ) : (
+                          formatCurrency(Number(data.realisasi))
+                        )}
+                      </td>
+                      <td className="border border-white  py-1">
+                        {data.persen}
+                      </td>
+                    </tr>
+                  ))}
+                  <tr className="text-center">
+                    <td className="border border-white py-1">
+                      <b>{section.total?.summary}</b>
+                    </td>
+                    <td></td>
+                    <td className="border border-white py-1">
+                      {section.total?.anggaran}
+                    </td>
+                    <td className="border border-white py-1">
+                      {section.total?.realisasi}
+                    </td>
+                    <td className="border border-white py-1">
+                      {section.total?.persen}
+                    </td>
+                  </tr>
+                </Fragment>
+              ))}
+            </tbody>
+          </table>
+         
+        </div>
       ) : (
         <div className="text-black">Not Found</div>
       )}

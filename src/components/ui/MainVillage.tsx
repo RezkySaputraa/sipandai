@@ -250,7 +250,11 @@ export default function MainVillage({
                       <td className="border-2 border-gray-300 ">{index}</td>
                       <td
                         className="border-2 border-gray-300"
-                        onClick={() => setInput(true)}
+                        onClick={() => {
+                          setYear(item.year);
+                          setmonth(item.month);  
+                          setInput(true)
+                        }}
                       >
                         <Image
                           src={"/assetsweb/Village/eye.svg"}

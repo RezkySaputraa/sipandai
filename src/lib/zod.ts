@@ -7,5 +7,5 @@ export const SignInSchema = object({
 
 export const RegisterSchema = object({
     email: string().email("invalid email"),
-    password: string().min(8,"password tidak boleh lebih dari 8 character")
+    password: string().min(1,"password tidak boleh lebih dari 8 character")
 })

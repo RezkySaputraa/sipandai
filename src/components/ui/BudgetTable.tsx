@@ -1,6 +1,5 @@
 "use client";
 import React, { Fragment, useEffect, useState } from "react";
-import { anggaranDesa } from "@/utils/dataTable";
 import { getColor } from "@/utils/color";
 
 export default function BudgetTable({
@@ -77,14 +76,15 @@ export default function BudgetTable({
   const transformBudgetData = (anggaran: any): any[] => {
     const sections: any[] = [];
     const mainCategories = new Map<string, any[]>();
-
+   
     anggaran.BudgetItem.forEach((item) => {
-      const categoryCode = item.mainCategory;
-      if (!mainCategories.has(categoryCode)) {
-        mainCategories.set(categoryCode, []);
-      }
-      mainCategories.get(categoryCode)!.push(item);
-    });
+        const categoryCode = item.mainCategory;
+        if (!mainCategories.has(categoryCode)) {
+          mainCategories.set(categoryCode, []);
+        }
+        mainCategories.get(categoryCode)!.push(item);
+       
+      });
 
     mainCategories.forEach((items, categoryCode) => {
       const mainCategory = items[0].mainCategory;
@@ -101,18 +101,17 @@ export default function BudgetTable({
       const sectionData: any["data"] = [];
       let totalBudget = 0;
       let totalRealization = 0;
-
+      
       subCategories.forEach((subItems, subCatCode) => {
         if (subItems[0].subCategory) {
           sectionData.push({
-            kode: subItems[0].subCategory,
+            kode: '',
             uraian: subItems[0].subCategory,
             anggaran: "",
             realisasi: "",
             persen: "",
           });
         }
-
         subItems
           .sort((a, b) => a.orderNumber - b.orderNumber)
           .forEach((item) => {
@@ -145,7 +144,7 @@ export default function BudgetTable({
       });
     });
 
-    return sections.sort((a, b) => a.no.localeCompare(b.no));
+    return sections;
   };
 
   const anggaran = transformBudgetData(anggaranDesa);
@@ -208,11 +207,10 @@ export default function BudgetTable({
                               name="anggaran"
                               type="text"
                               placeholder ={formatCurrency(data.anggaran)}
-                              onChange={(e) => {}}
                             />
                           </div>
                         ) : (
-                          formatCurrency(Number(data.anggaran))
+                          data.persen ? formatCurrency(Number(data.anggaran)) : ''
                         )}
                       </td>
                       <td className="border border-white  py-1">
@@ -221,13 +219,11 @@ export default function BudgetTable({
                             <input
                               name="realisasi"
                               type="text"
-                              placeholder ={formatCurrency(data.anggaran)}
-                              onChange={(e) => {}}
-                            
+                              placeholder ={formatCurrency(data.realisasi)}
                             />
                           </div>
                         ) : (
-                          formatCurrency(Number(data.realisasi))
+                          data.persen ? formatCurrency(Number(data.realisasi)) : ''
                         )}
                       </td>
                       <td className="border border-white  py-1">

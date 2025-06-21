@@ -1,6 +1,4 @@
 "use client";
-
-import { getColor } from "@/utils/color";
 import { useRouter } from "next/navigation";
 
 export default function LaporanAnda() {

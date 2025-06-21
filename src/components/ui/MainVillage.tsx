@@ -9,13 +9,16 @@ import { useRouter } from "next/navigation";
 import { textColor } from "@/utils/color";
 import handleExcel from "@/utils/excel";
 import { postBudgetPeriod } from "@/action/postBudgetPeriod";
+import { PostLaporan } from "@/action/postLaporan";
 
 export default function MainVillage({
   village,
   role,
+  userId
 }: {
   village: any;
   role: any;
+  userId: any;
 }) {
   const [table, setTable] = useState(true);
   const [year, setYear] = useState(2025);
@@ -47,11 +50,33 @@ export default function MainVillage({
         year,
         month,
         villageSlug: slug,
+
       });
     },
     null
   );
-
+  const [_states, formActionsLapor] = useActionState(
+    async (_prevState: any, formData: FormData) => {
+      console.log("Form Data:", formData);
+      const title = formData.get("title") as string;
+      const year = Number(formData.get("year"));
+      const month = Number(formData.get("month"));
+      const description = formData.get("description") as string;
+      const slug = village.slug ?? "";
+      if (!title || !year || !month || !slug) {
+        console.error("isi dulu bosku.");
+        return { success: false, message: "Semua field harus diisi." };
+      }
+      return await PostLaporan({
+        title,
+        year,
+        month,
+        villageSlug: slug,
+        description
+      })
+    },
+    null
+  );
   useEffect(() => {
     const fetchDataTable = async () => {
       const response = await fetch(`/api/village/budget?slug=${village.slug}`);
@@ -333,7 +358,7 @@ export default function MainVillage({
               </button>
             </div>
 
-            <form className="bg-gray-200 p-3 md:p-6 rounded-lg border-t-3 border-red-600 w-full">
+            <form className="bg-gray-200 p-3 md:p-6 rounded-lg border-t-3 border-red-600 w-full" action={formActionsLapor}>
               <div className="flex flex-col">
                 <label
                   className="block font-semibold text-sm md:text-lg"
@@ -422,7 +447,7 @@ export default function MainVillage({
                   className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded cursor-pointer"
                 >
                   Simpan
-                </button>
+              </button>
               </div>
             </form>
           </div>
@@ -513,3 +538,4 @@ export default function MainVillage({
     </>
   );
 }
+

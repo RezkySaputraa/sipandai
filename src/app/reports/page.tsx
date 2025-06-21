@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-export default function LaporanAnda() {
+export default function LaporanPengguna() {
   const router = useRouter();
 
   const handleBack = () => {

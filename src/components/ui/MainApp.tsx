@@ -2,9 +2,7 @@ import Image from "next/image";
 import Square from "./Square";
 import Search from "./Search";
 
-export default function MainApp() {
-  const auditor = false;
-
+export default function MainApp({ role }: { role: string }) {
   const dataUser = [
     {
       title: "Jumlah Desa",
@@ -75,7 +73,7 @@ export default function MainApp() {
 
   return (
     <>
-      {/* {!auditor && (
+      {role === "admin" && (
         <>
           <div className="bg-gradient-to-b from-[#E27303] min-h-[70vh]">
             <div className="flex justify-center items-center gap-5 pt-20">
@@ -106,9 +104,9 @@ export default function MainApp() {
             </div>
           </div>
         </>
-      )} */}
+      )}
 
-      {!auditor && (
+      {role === "user" && (
         <>
           <div className="bg-gradient-to-b from-[#08B786] min-h-[70vh]">
             <div className="w-[90%] md:w-[30%] mx-auto pt-15">
@@ -147,7 +145,7 @@ export default function MainApp() {
         </>
       )}
 
-      {auditor && (
+      {role === "auditor" && (
         <>
           <div className="bg-gradient-to-b from-[#0093DD] min-h-[70vh]">
             <div className="w-[30%] mx-auto pt-15">

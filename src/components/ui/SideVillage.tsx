@@ -37,7 +37,7 @@ export default function SideVillage({village} : {village:any} ) {
           ></Image>
           <h1 className="font-semibold text-md">Anggaran & Realisasi Desa</h1>
         </div>
-        <Link href="/reports/1" className="flex gap-2 bg-white p-3 rounded-lg">
+        <Link href="/reports" className="flex gap-2 bg-white p-3 rounded-lg">
           <Image
             src="/assetsweb/Village/laporan.svg"
             alt="anggaran"

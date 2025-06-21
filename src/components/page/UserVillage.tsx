@@ -1,16 +1,16 @@
 import SideVillage from "../ui/SideVillage";
 import MainVillage from "../ui/MainVillage";
-import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
-import { Village } from "@prisma/client";
+import { auth } from "@/app/auth";
 
 
-export default function UserVillage({village} : {village:any}) {
+export default async function UserVillage({village} : {village:any}) {
+
+  const session = await auth();
 
   return (
     <div className="bg-[#EEF0F2] min-h-screen flex px-5 pt-7">
-      <SideVillage village={village}></SideVillage>
-      <MainVillage  village={village}></MainVillage>
+      <SideVillage village={village} role={session?.user?.role || "user"}></SideVillage>
+      <MainVillage  village={village} role={session?.user?.role || "user"}></MainVillage>
     </div>
   );
 }

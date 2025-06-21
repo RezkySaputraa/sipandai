@@ -3,13 +3,12 @@ import Navbar from "../ui/Navbar";
 import MainApp from "../ui/MainApp";
 import { auth } from "@/app/auth";
 
-export default async function UserMain() {
-  const session = await auth();
+export default async function UserMain({role} : { role: string }) {
 
   return (
     <>
-      <Navbar role={session?.user?.role || ""}></Navbar>
-      <MainApp></MainApp>
+      <Navbar role={role|| ""}></Navbar>
+      <MainApp role={role|| ""}></MainApp>
     </>
   );
 }

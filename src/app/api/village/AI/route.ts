@@ -4,8 +4,6 @@ import { NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    
-    const { message } = await request.json();
     const village = searchParams.get("village") ?? "";
     const role = searchParams.get("role") ?? "user";
     const year = Number(searchParams.get("year")?? 2025);
@@ -35,7 +33,8 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-    console.log(message)
+
+    const { message } = await request.json();
     if (!message) {
       return Response.json({ error: "Message is required" }, { status: 400 });
     }
@@ -94,6 +93,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!response?.ok) {
+      console.log(response);
       console.log(response);
       throw new Error(`HTTP error: ${response?.status}`);
     }

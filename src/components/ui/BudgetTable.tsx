@@ -145,11 +145,7 @@ const calculatePercentage = (realization: number, budget: number): string => {
     <>
       {anggaran.length > 0 ? (
         <table className="w-full text-white rounded-lg overflow-hidden border-collapse">
-          <thead
-            className={`${
-              role === "auditor" ? "bg-[#0093DD]" : "bg-[#08B786]"
-            }`}
-          >
+          <thead className={`${getColor(role)}`}>
             <tr>
               <th className="border border-white py-1" rowSpan={2}>
                 Desa Bati-Bati

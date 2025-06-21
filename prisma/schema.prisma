@@ -129,8 +129,8 @@ model BudgetItem {
 model Laporan {
   id          String  @id @default(cuid())
   title       String
-  description String
-  status      String
+  description String? 
+  status      String  @default("draft")
   year        Int
   month       Int
   userId      String

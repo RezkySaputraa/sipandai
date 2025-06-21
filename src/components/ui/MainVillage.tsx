@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useActionState, useEffect, useState } from "react";
 import BudgetTable from "./BudgetTable";
 import Komentar from "./Komentar";
 import SummaryAi from "./SummaryAi";
@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { textColor } from "@/utils/color";
 import handleExcel from "@/utils/excel";
+import { postBudgetPeriod } from "@/action/postBudgetPeriod";
 
 export default function MainVillage({
   village,
@@ -18,9 +19,10 @@ export default function MainVillage({
 }) {
   const [table, setTable] = useState(true);
   const [year, setYear] = useState(2025);
-  const [month, setmonth] = useState(2);
+  const [month, setmonth] = useState(1);
   const [input, setInput] = useState(false);
   const [modal, setModal] = useState(false);
+  const [listTable, setListTable] = useState<any>();
   const [inputModal, setInputModal] = useState(false);
 
   const router = useRouter();
@@ -29,6 +31,40 @@ export default function MainVillage({
     router.back();
   };
 
+  const [_state, formActionsTable] = useActionState(
+    async (_prevState: any, formData: FormData) => {
+      console.log("Form Data:", formData);
+      const name = formData.get("name") as string;
+      const year = Number(formData.get("year"));
+      const month = Number(formData.get("month"));
+      const slug = village.slug ?? "";
+      if (!name || !year || !month || !slug) {
+        console.error("isi dulu bosku.");
+        return { success: false, message: "Semua field harus diisi." };
+      }
+      return await postBudgetPeriod({
+        periodName: name,
+        year,
+        month,
+        villageSlug: slug,
+      });
+    },
+    null
+  );
+
+  useEffect(() => {
+    const fetchDataTable = async () => {
+      const response = await fetch(`/api/village/budget?slug=${village.slug}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch budget data");
+      }
+
+      const result = await response.json();
+      setListTable(result.data);
+    };
+    fetchDataTable();
+  }, [village.slug,year]);
+  console.log("listTable", listTable);
   return (
     <>
       {role !== "admin" && (
@@ -36,10 +72,7 @@ export default function MainVillage({
           <h1 className={`font-bold text-xl ${textColor(role)}`}>
             Total Anggaran & Realisasi {village.name}
           </h1>
-          <p className=" text-gray-500 py-4">
-            Terakhir diperbaharui : 20 Desember 2022
-          </p>
-          <div className="flex gap-2">
+          <div className="flex gap-2 mt-5">
             <button
               className="bg-[#0093DD] w-1/12 text-white rounded-lg font-semibold p-1"
               onClick={handleBack}
@@ -106,7 +139,9 @@ export default function MainVillage({
                   name="status"
                   id="status"
                   className="p-2 bg-gray-100 rounded-lg"
+                  defaultValue={"Pilih Status"}
                 >
+                  <option value="2025" className="hidden">Pilih Status</option>
                   <option value="2025">Sedang di Audit</option>
                   <option value="2024">Sedang di Proses</option>
                   <option value="2023">Selesai</option>
@@ -229,32 +264,38 @@ export default function MainVillage({
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-2 border-gray-300 text-center">
-                    <td className="border-2 border-gray-300 ">No</td>
-                    <td
-                      className="border-2 border-gray-300"
-                      onClick={() => setInput(true)}
-                    >
-                      <Image
-                        src={"/assetsweb/Village/eye.svg"}
-                        width={50}
-                        height={50}
-                        alt="eye"
-                        className="mx-auto cursor-pointer"
-                      ></Image>
-                    </td>
-                    <td className="border-2 border-gray-300">Judul Dugaan</td>
-                    <td className="border-2 border-gray-300">Tanggal</td>
-                    <td className="border-2 border-gray-300 p-3">
-                      <Image
-                        src={"/assetsweb/Village/VillageMain/admincross.svg"}
-                        width={50}
-                        height={50}
-                        alt="check"
-                        className="mx-auto"
-                      ></Image>
-                    </td>
-                  </tr>
+                  {listTable?.map((item: any, index:number) => (
+                    <tr className="border-2 border-gray-300 text-center" key={item.id}>
+                      <td className="border-2 border-gray-300 ">{index}</td>
+                      <td
+                        className="border-2 border-gray-300"
+                        onClick={() => {
+                          setYear(item.year);
+                          setmonth(item.month);  
+                          setInput(true)
+                        }}
+                      >
+                        <Image
+                          src={"/assetsweb/Village/eye.svg"}
+                          width={50}
+                          height={50}
+                          alt="eye"
+                          className="mx-auto"
+                        ></Image>
+                      </td>
+                      <td className="border-2 border-gray-300">{item.name}</td>
+                      <td className="border-2 border-gray-300">{item.year}</td>
+                      <td className="border-2 border-gray-300 p-3">
+                        <Image
+                          src={"/assetsweb/Village/VillageMain/admincross.svg"}
+                          width={50}
+                          height={50}
+                          alt="check"
+                          className="mx-auto"
+                        ></Image>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </>
@@ -403,7 +444,7 @@ export default function MainVillage({
 
             <form
               className="bg-gray-200 px-6 py-7 border-t-3 border-gray-400 w-full"
-              action={""}
+              action={formActionsTable}
             >
               <div>
                 <label className="block font-semibold" htmlFor="title">
@@ -412,7 +453,7 @@ export default function MainVillage({
                 <input
                   id="title"
                   type="text"
-                  name="periodName"
+                  name="name"
                   placeholder="Masukkan judul laporan"
                   className="w-[45%] rounded-md px-3 py-2 bg-gray-100 border border-gray-300"
                 />

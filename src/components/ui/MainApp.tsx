@@ -1,10 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Square from "./Square";
 import Search from "./Search";
+import { useRouter } from "next/navigation";
 
-export default function MainApp() {
-  const auditor = false;
-
+export default function MainApp({ role }: { role: string }) {
   const dataUser = [
     {
       title: "Jumlah Desa",
@@ -29,10 +30,6 @@ export default function MainApp() {
   ];
 
   const dataAdmin = [
-    {
-      title: "Masuk",
-      logo: "admindirect",
-    },
     {
       title: "Realisasi Pendapatan 2025",
       angka: "98%",
@@ -73,9 +70,15 @@ export default function MainApp() {
     },
   ];
 
+  const router = useRouter();
+
+  const handleDirect = () => {
+    router.push(`/village/bati-bati`);
+  };
+
   return (
     <>
-      {/* {!auditor && (
+      {role === "admin" && (
         <>
           <div className="bg-gradient-to-b from-[#E27303] min-h-[70vh]">
             <div className="flex justify-center items-center gap-5 pt-20">
@@ -94,6 +97,12 @@ export default function MainApp() {
               Selatan.
             </p>
             <div className="flex justify-center gap-6">
+              <Square
+                title={"Masuk"}
+                logo={"admindirect"}
+                color="text-[#E27303]"
+                onClick={handleDirect}
+              ></Square>
               {dataAdmin.map((item, index) => (
                 <Square
                   title={item.title}
@@ -106,15 +115,15 @@ export default function MainApp() {
             </div>
           </div>
         </>
-      )} */}
+      )}
 
-      {!auditor && (
+      {role === "user" && (
         <>
           <div className="bg-gradient-to-b from-[#08B786] min-h-[70vh]">
-            <div className="w-[90%] md:w-[30%] mx-auto pt-15">
+            <div className="w-[90%] md:w-[30%] mx-auto pt-10">
               <Search image="/assetsweb/Hero/search.svg"></Search>
             </div>
-            <h1 className="text-white font-bold text-center text-xl md:text-5xl mt-10 ">
+            <h1 className="text-white font-bold text-center text-2xl md:text-5xl mt-10 ">
               Rekap Dana Desa Nasional Tahun 2025
             </h1>
             <div className="flex justify-center gap-1 md:gap-6 flex-wrap">
@@ -147,11 +156,11 @@ export default function MainApp() {
         </>
       )}
 
-      {auditor && (
+      {role === "auditor" && (
         <>
           <div className="bg-gradient-to-b from-[#0093DD] min-h-[70vh]">
             <div className="w-[30%] mx-auto pt-15">
-              <Search image="/assetsweb/Hero/search.svg"></Search>
+              <Search image="/assetsweb/Hero/auditorsearch.svg"></Search>
             </div>
             <h1 className="text-white font-bold text-center text-5xl mt-10">
               Audit Anggaran dan Realisasi Dana Desa

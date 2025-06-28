@@ -3,18 +3,18 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: any }) {
-  const param:any = await params;
+  const param: any = await params;
   const village = await prisma.village.findFirst({
     where: {
       slug: param.name,
     },
-    include:{
+    include: {
       comments: true,
       laporan: true,
-    }
+    },
   });
-  if(!village){
-    notFound()
+  if (!village) {
+    notFound();
   }
   return (
     <>

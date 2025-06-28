@@ -96,12 +96,13 @@ model Village {
 }
 
 model Comment {
-  id        String  @id @default(cuid())
+  id        String   @id @default(cuid())
   userId    String
   text      String
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   villageId String
-  village   Village @relation(fields: [villageId], references: [id], onDelete: Cascade)
+  village   Village  @relation(fields: [villageId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 
 model budgetPeriod {
@@ -110,6 +111,7 @@ model budgetPeriod {
   month       Int
   year        Int
   villageSlug String
+  status      Boolean
   village     Village      @relation(fields: [villageSlug], references: [slug], onDelete: Cascade)
   BudgetItem  BudgetItem[]
 }
@@ -129,8 +131,8 @@ model BudgetItem {
 model Laporan {
   id          String  @id @default(cuid())
   title       String
-  description String
-  status      String
+  description String?
+  status      String  @default("draft")
   year        Int
   month       Int
   userId      String

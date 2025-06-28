@@ -1,4 +1,5 @@
-"use client"
+"use client";
+import { textColor } from "@/utils/color";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -62,18 +63,31 @@ export default function SummaryAi({
     <>
       <div className="bg-[#E2E8F0] rounded-lg pl-3 pr-9 pt-1 pb-4">
         <div className="flex items-center">
-          <Image
-            src="/assetsweb/Village/VillageMain/shuriken.svg"
-            width={45}
-            height={45}
-            alt="shuriken"
-          ></Image>
-          <h1 className="font-semibold text-[#08B786] text-2xl">
+          {role === "auditor" ? (
+            <Image
+              src="/assetsweb/Village/VillageMain/auditorshuriken.svg"
+              width={45}
+              height={45}
+              alt="shuriken"
+            ></Image>
+          ) : (
+            <Image
+              src="/assetsweb/Village/VillageMain/shuriken.svg"
+              width={45}
+              height={45}
+              alt="shuriken"
+            ></Image>
+          )}
+          <h1 className={`font-semibold ${textColor(role)} text-2xl`}>
             Ringkasan Pendapatan Desa {slug} di tahun 2025
           </h1>
         </div>
-        {loading ? <h1>LOADING...</h1> : <p className="text-gray-600 mt-2">{summary}</p> }
-        </div>
+        {loading ? (
+          <h1>LOADING...</h1>
+        ) : (
+          <p className="text-gray-600 mt-2 text-lg">{summary}</p>
+        )}
+      </div>
       <div className="mt-4 relative">
         <input
           onChange={(e) => {
@@ -83,14 +97,25 @@ export default function SummaryAi({
           className="p-3 rounded-xl border-2 border-gray-200 w-full"
           placeholder="Cari tau menggunakan AI"
         />
-        <Image
-          onClick={sendMessage}
-          src={"/assetsweb/Village/VillageMain/submit.svg"}
-          alt="ai"
-          width={30}
-          height={30}
-          className="absolute right-3 top-3 cursor-pointer"
-        ></Image>
+        {role === "auditor" ? (
+          <Image
+            onClick={sendMessage}
+            src={"/assetsweb/Village/VillageMain/auditorsubmit.svg"}
+            alt="ai"
+            width={30}
+            height={30}
+            className="absolute right-3 top-3 cursor-pointer"
+          ></Image>
+        ) : (
+          <Image
+            onClick={sendMessage}
+            src={"/assetsweb/Village/VillageMain/submit.svg"}
+            alt="ai"
+            width={30}
+            height={30}
+            className="absolute right-3 top-3 cursor-pointer"
+          ></Image>
+        )}
       </div>
     </>
   );

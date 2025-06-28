@@ -5,15 +5,20 @@ export default function Square({
   angka,
   logo,
   color,
+  onClick,
 }: {
   title: string;
   angka?: string;
   logo: string;
   color: string;
+  onClick?: () => void;
 }) {
   return (
     <>
-      <div className="bg-white w-[250px] flex flex-col justify-center items-center rounded-xl mt-10 py-6">
+      <div
+        className="bg-white w-[250px] flex flex-col justify-center items-center rounded-xl mt-10 py-6 cursor-pointer"
+        onClick={onClick}
+      >
         <Image
           src={`/assetsweb/Hero/${logo}.svg`}
           width={50}

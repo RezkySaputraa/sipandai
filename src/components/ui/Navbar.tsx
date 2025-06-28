@@ -1,20 +1,25 @@
 "use client";
 
+import { signOut } from "@/app/auth";
+import { getColor } from "@/utils/color";
+import { sign } from "crypto";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
-export default function Navbar({role} : {role: string}) {
+export default function Navbar({ role }: { role: string }) {
   const [loginModal, setLoginModal] = useState(false);
-  
+
   const handleModal = () => {
     setLoginModal(!loginModal);
   };
 
   return (
     <>
-      {/* nanti dirubah warna sesuai auth */}
       <div
-        className="bg-[#08B786] flex justify-between px-7 relative"
+        className={`${getColor(
+          role
+        )} flex justify-between px-3 md:px-7 py-2 relative`}
         onClick={handleModal}
       >
         <div className="flex items-center gap-3">
@@ -38,9 +43,11 @@ export default function Navbar({role} : {role: string}) {
           ></Image>
         </div>
 
-        {role != "" && (
-          <div className="bg-stone-100 w-1/12 flex justify center flex-col p-2 rounded-lg absolute top-10 right-10">
-            <h1 className="font-semibold">Login</h1>
+        {loginModal && (
+          <div className="bg-stone-100 w-1/12 flex justify-center flex-col p-2 rounded-lg absolute top-17 right-7 font-bold ">
+            <Link href="/login" className="font-semibold">
+              Login
+            </Link>
             <h1 className="font-semibold">Logout</h1>
           </div>
         )}

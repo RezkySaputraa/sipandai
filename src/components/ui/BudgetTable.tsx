@@ -7,11 +7,13 @@ export default function BudgetTable({
   role,
   year,
   month,
+  setInput,
   slug,
 }: {
   role?: string;
   year: number;
   month: number;
+  setInput?: any;
   slug: string;
 }) {
   const [anggaranDesa, setAnggaranDesa] = useState<any>({});
@@ -85,6 +87,7 @@ export default function BudgetTable({
       console.error("Error updating budget:", error);
       alert("Failed to update budget data");
     } finally {
+      setInput(false);
       setIsSaving(false);
       router.refresh();
     }

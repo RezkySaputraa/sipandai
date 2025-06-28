@@ -6,7 +6,7 @@ import { textColor } from "@/utils/color";
 export default function SideVillage({
   village,
   role,
-  userId
+  userId,
 }: {
   village: any;
   role: any;

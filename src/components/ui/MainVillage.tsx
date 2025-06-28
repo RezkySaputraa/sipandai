@@ -235,6 +235,7 @@ export default function MainVillage({
                 month={month}
                 slug={village.slug}
                 role={role}
+                setInput={setInput}
               ></BudgetTable>
             </>
           ) : (
@@ -307,8 +308,7 @@ export default function MainVillage({
                       <td className="border-2 border-gray-300">{item.year}</td>
                       <td className="border-2 border-gray-300 p-3">
                         {item.status ? (
-                          <Image 
-                            
+                          <Image
                             src="/assetsweb/Village/VillageMain/check.svg"
                             width={50}
                             height={50}
@@ -324,8 +324,8 @@ export default function MainVillage({
                             className="mx-auto"
                           />
                         )}
-                        </td>
-                      </tr>
+                      </td>
+                    </tr>
                   ))}
                 </tbody>
               </table>

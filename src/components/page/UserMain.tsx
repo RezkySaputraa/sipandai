@@ -4,7 +4,6 @@ import MainApp from "../ui/MainApp";
 import { auth } from "@/app/auth";
 
 export default async function UserMain({role} : { role: string }) {
-
   return (
     <>
       <Navbar role={role|| ""}></Navbar>

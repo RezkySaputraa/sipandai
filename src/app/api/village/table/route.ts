@@ -59,6 +59,7 @@ export async function POST(request: NextRequest) {
     }
     const data = await prisma.budgetPeriod.create({
       data: {
+        status: false,
         year,
         month,
         name,
@@ -88,7 +89,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function UPDATE(request: NextRequest) {
+export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
     const { id, BudgetItem = [] } = body;
@@ -107,20 +108,22 @@ export async function UPDATE(request: NextRequest) {
           upsert: BudgetItem.map((item: any) => ({
             where: { id: item.id || undefined },
             create: {
-              budgetAmount: item.budget || 0,
+              budget: item.budget || 0,
               realization: item.realization || 0,
               mainCategory: item.mainCategory,
               subCategory: item.subCategory,
               orderNumber: item.orderNumber,
               code: item.code,
+              name: item.name,
             },
             update: {
-              budgetAmount: item.budget || 0,
+              budget: item.budget || 0,
               realization: item.realization || 0,
               mainCategory: item.mainCategory,
               subCategory: item.subCategory,
               orderNumber: item.orderNumber,
               code: item.code,
+              name: item.name,
             },
           })),
         },

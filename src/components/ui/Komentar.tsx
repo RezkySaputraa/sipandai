@@ -1,38 +1,63 @@
-import Image from "next/image";
+"use client";
 import Netizen from "./Netizen";
-import { getColor } from "@/utils/color";
+import KomentarForm from "./komentarForm";
+import { useEffect, useState } from "react";
 
-export default function Komentar({ role }: { role: string }) {
+export default function Komentar({
+  id,
+  role,
+  userId,
+}: {
+  id: string;
+  role: string;
+  userId: string;
+}) {
+  const [comment, setComment] = useState<any>();
+  const [refreshFlag, setRefreshFlag] = useState(0);
+  
+  const refreshComments = () => {
+    setRefreshFlag(prev => prev + 1);
+  };
+  
+  useEffect(() => {
+    const fetchComment = async () => {
+      const response = await fetch(`/api/village/comment?id=${id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch budget data");
+      }
+      
+      const result = await response.json();
+      setComment(result.data);
+    };
+    
+    fetchComment();
+  }, [refreshFlag, id]);
+
+  if (!comment) {
+    return (
+      <div className="text-black">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+  
   return (
     <div>
-      <div>
-        <h1 className="font-bold text-2xl my-6">3 Komentar</h1>
-        <div className="flex gap-2 items-center">
-          <Image
-            src={"/assetsweb/Village/VillageMain/profile.svg"}
-            width={40}
-            height={40}
-            alt="profile"
-          ></Image>
-          <input
-            type="text"
-            placeholder="Tambahkan Komentar"
-            className="border-b-2 border-gray-300 w-full ml-4"
+      <h1 className="font-bold text-xl md:text-2xl">
+        {comment.length} Komentar
+      </h1>
+      <KomentarForm villageId={id} role={role} UserId={userId} onCommentSubmit={refreshComments} />
+      <div className="mt-7">
+        {comment.map((data : any) => (
+          <Netizen
+            key={data.id}
+            user={data.user.email || "Anonim"}
+            image={data.user.image || null}
+            komentar={data.text}
+            tanggal={data.createdAt}
           />
-        </div>
+        ))}
       </div>
-      <div className="flex gap-4 justify-end">
-        <button className="font-semibold">Batal</button>
-        <button
-          className={`font-semibold text-white ${getColor(
-            role
-          )} rounded-lg p-2`}
-        >
-          Komentar
-        </button>
-      </div>
-      <Netizen></Netizen>
-      <Netizen></Netizen>
     </div>
   );
 }

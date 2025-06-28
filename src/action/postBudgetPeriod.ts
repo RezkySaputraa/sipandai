@@ -411,6 +411,7 @@ export async function postBudgetPeriod({
     ];
     const budgetPeriod = await prisma.budgetPeriod.create({
       data: {
+        status: false,
         name: periodName,
         year,
         month,

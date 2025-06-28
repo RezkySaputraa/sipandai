@@ -14,7 +14,7 @@ import { PostLaporan } from "@/action/postLaporan";
 export default function MainVillage({
   village,
   role,
-  userId
+  userId,
 }: {
   village: any;
   role: any;
@@ -42,40 +42,37 @@ export default function MainVillage({
       const month = Number(formData.get("month"));
       const slug = village.slug ?? "";
       if (!name || !year || !month || !slug) {
-        console.error("isi dulu bosku.");
         return { success: false, message: "Semua field harus diisi." };
       }
-      
+      setInputModal(false);
       return await postBudgetPeriod({
         periodName: name,
         year,
         month,
         villageSlug: slug,
-
       });
     },
     null
   );
   const [_states, formActionsLapor] = useActionState(
     async (_prevState: any, formData: FormData) => {
-      console.log("Form Data:", formData);
       const title = formData.get("title") as string;
       const year = Number(formData.get("year"));
       const month = Number(formData.get("month"));
       const description = formData.get("description") as string;
       const slug = village.slug ?? "";
       if (!title || !year || !month || !slug) {
-        console.error("isi dulu bosku.");
         return { success: false, message: "Semua field harus diisi." };
       }
+      setModal(false);
       return await PostLaporan({
         title,
         year,
         month,
         villageSlug: slug,
         description,
-        userId
-      })
+        userId,
+      });
     },
     null
   );
@@ -90,8 +87,8 @@ export default function MainVillage({
       setListTable(result.data);
     };
     fetchDataTable();
-  }, [village.slug,year]);
-  console.log("listTable", listTable);
+  }, [village.slug, year, month]);
+
   return (
     <>
       {role !== "admin" && (
@@ -168,7 +165,9 @@ export default function MainVillage({
                   className="p-2 bg-gray-100 rounded-lg"
                   defaultValue={"Pilih Status"}
                 >
-                  <option value="2025" className="hidden">Pilih Status</option>
+                  <option value="2025" className="hidden">
+                    Pilih Status
+                  </option>
                   <option value="2025">Sedang di Audit</option>
                   <option value="2024">Sedang di Proses</option>
                   <option value="2023">Selesai</option>
@@ -212,7 +211,7 @@ export default function MainVillage({
             ></SummaryAi>
           )}
 
-          <Komentar role={role}></Komentar>
+          <Komentar role={role} id={village.id} userId={userId} />
         </div>
       )}
 
@@ -237,16 +236,6 @@ export default function MainVillage({
                 slug={village.slug}
                 role={role}
               ></BudgetTable>
-
-              <div className="flex gap-3 justify-end mt-3">
-                <button className="bg-[#E20303] w-1/12 text-white rounded-lg font-semibold p-1 cursor-pointer">
-                  Batal
-                </button>
-                <button className="bg-[#186ac6] w-1/12 text-white rounded-lg font-semibold p-1 cursor-pointer" 
-                  onClick={() => setModal(false)}>
-                  Simpan
-                </button>
-              </div>
             </>
           ) : (
             <>
@@ -292,15 +281,18 @@ export default function MainVillage({
                   </tr>
                 </thead>
                 <tbody>
-                  {listTable?.map((item: any, index:number) => (
-                    <tr className="border-2 border-gray-300 text-center" key={item.id}>
+                  {listTable?.map((item: any, index: number) => (
+                    <tr
+                      className="border-2 border-gray-300 text-center"
+                      key={item.id}
+                    >
                       <td className="border-2 border-gray-300 ">{index}</td>
                       <td
                         className="border-2 border-gray-300"
                         onClick={() => {
                           setYear(item.year);
-                          setmonth(item.month);  
-                          setInput(true)
+                          setmonth(item.month);
+                          setInput(true);
                         }}
                       >
                         <Image
@@ -314,15 +306,26 @@ export default function MainVillage({
                       <td className="border-2 border-gray-300">{item.name}</td>
                       <td className="border-2 border-gray-300">{item.year}</td>
                       <td className="border-2 border-gray-300 p-3">
-                        <Image
-                          src={"/assetsweb/Village/VillageMain/admincross.svg"}
-                          width={50}
-                          height={50}
-                          alt="check"
-                          className="mx-auto"
-                        ></Image>
-                      </td>
-                    </tr>
+                        {item.status ? (
+                          <Image 
+                            
+                            src="/assetsweb/Village/VillageMain/check.svg"
+                            width={50}
+                            height={50}
+                            alt="check"
+                            className="mx-auto"
+                          />
+                        ) : (
+                          <Image
+                            src="/assetsweb/Village/VillageMain/admincross.svg"
+                            width={50}
+                            height={50}
+                            alt="cross"
+                            className="mx-auto"
+                          />
+                        )}
+                        </td>
+                      </tr>
                   ))}
                 </tbody>
               </table>
@@ -361,7 +364,10 @@ export default function MainVillage({
               </button>
             </div>
 
-            <form className="bg-gray-200 p-3 md:p-6 rounded-lg border-t-3 border-red-600 w-full" action={formActionsLapor}>
+            <form
+              className="bg-gray-200 p-3 md:p-6 rounded-lg border-t-3 border-red-600 w-full"
+              action={formActionsLapor}
+            >
               <div className="flex flex-col">
                 <label
                   className="block font-semibold text-sm md:text-lg"
@@ -450,7 +456,7 @@ export default function MainVillage({
                   className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded cursor-pointer"
                 >
                   Simpan
-              </button>
+                </button>
               </div>
             </form>
           </div>
@@ -523,7 +529,7 @@ export default function MainVillage({
               <div className="flex justify-between px-4 pt-4">
                 <button
                   className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded cursor-pointer"
-                  onClick={() => setModal(false)}
+                  onClick={() => setInputModal(false)}
                 >
                   Batal
                 </button>
@@ -541,4 +547,3 @@ export default function MainVillage({
     </>
   );
 }
-

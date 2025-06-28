@@ -1,25 +1,43 @@
 import Image from "next/image";
 
-export default function Netizen() {
+export default function Netizen({
+  user,
+  image,
+  komentar,
+  tanggal,
+}: {
+  user: string;
+  image: string | undefined | null;
+  komentar: string;
+  tanggal: string | Date;
+}) {
   return (
-    <div className="flex ml-1 mt-5">
+    <div className="mt-7 flex items-start">
+      <Image
+        src={image || "/assets/Village/VillageMain/profile.svg"}
+        alt="profile"
+        width={50}
+        height={50}
+        className="mr-5 rounded-full object-cover w-12"
+      />
       <div>
-        <Image
-          src="/assetsweb/Village/VillageMain/profile.svg"
-          width={75}
-          height={75}
-          alt="netizen"
-        ></Image>
-      </div>
-      <div className="ml-7">
-        <h2 className="font-bold text-md">Netizen</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, vero,
-          voluptatum praesentium optio exercitationem laborum deserunt dolores
-          maiores voluptatem consequatur incidunt? Dolores, repudiandae ducimus.
-          Alias velit, eius facere quasi praesentium exercitationem autem totam
-          nulla! Itaque veniam doloremque qui numquam ipsa.
-        </p>
+        <div className="flex items-center gap-3">
+          <h1 className="font-semibold text-sm">{user || "Anonim"}</h1>
+          <p className="text-gray-400 text-sm w-full">
+            {typeof tanggal === "string"
+              ? new Date(tanggal).toLocaleDateString("id-ID", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })
+              : tanggal.toLocaleDateString("id-ID", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+          </p>
+        </div>
+        <p className="w-full text-sm mt-1">{komentar}</p>
       </div>
     </div>
   );

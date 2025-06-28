@@ -6,9 +6,11 @@ import { textColor } from "@/utils/color";
 export default function SideVillage({
   village,
   role,
+  userId
 }: {
   village: any;
   role: any;
+  userId: string;
 }) {
   return (
     <>
@@ -113,7 +115,7 @@ export default function SideVillage({
               </Link>
             ) : (
               <Link
-                href="/reports/1"
+                href={`/reports/${userId}`}
                 className="flex gap-2 bg-white p-3 rounded-lg"
               >
                 <Image

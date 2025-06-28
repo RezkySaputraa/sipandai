@@ -70,6 +70,11 @@ CREATE TABLE "Village" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
+    "provinsi" TEXT NOT NULL,
+    "kabupaten" TEXT NOT NULL,
+    "kecamatan" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Village_pkey" PRIMARY KEY ("id")
 );
@@ -85,6 +90,17 @@ CREATE TABLE "Comment" (
 );
 
 -- CreateTable
+CREATE TABLE "budgetPeriod" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "month" INTEGER NOT NULL,
+    "year" INTEGER NOT NULL,
+    "villageSlug" TEXT NOT NULL,
+
+    CONSTRAINT "budgetPeriod_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "BudgetItem" (
     "id" TEXT NOT NULL,
     "mainCategory" TEXT NOT NULL,
@@ -93,9 +109,23 @@ CREATE TABLE "BudgetItem" (
     "code" TEXT NOT NULL,
     "realization" INTEGER NOT NULL,
     "budget" INTEGER NOT NULL,
-    "villageId" TEXT NOT NULL,
+    "budgetPeriodId" TEXT NOT NULL,
 
     CONSTRAINT "BudgetItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Laporan" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'draft',
+    "year" INTEGER NOT NULL,
+    "month" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
+    "villageId" TEXT NOT NULL,
+
+    CONSTRAINT "Laporan_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -126,4 +156,13 @@ ALTER TABLE "Comment" ADD CONSTRAINT "Comment_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_villageId_fkey" FOREIGN KEY ("villageId") REFERENCES "Village"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "BudgetItem" ADD CONSTRAINT "BudgetItem_villageId_fkey" FOREIGN KEY ("villageId") REFERENCES "Village"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "budgetPeriod" ADD CONSTRAINT "budgetPeriod_villageSlug_fkey" FOREIGN KEY ("villageSlug") REFERENCES "Village"("slug") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "BudgetItem" ADD CONSTRAINT "BudgetItem_budgetPeriodId_fkey" FOREIGN KEY ("budgetPeriodId") REFERENCES "budgetPeriod"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Laporan" ADD CONSTRAINT "Laporan_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Laporan" ADD CONSTRAINT "Laporan_villageId_fkey" FOREIGN KEY ("villageId") REFERENCES "Village"("id") ON DELETE CASCADE ON UPDATE CASCADE;

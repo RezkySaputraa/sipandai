@@ -4,26 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
-    if (!userId) {
-      const data = await prisma.laporan.findMany({
-        include: {
-          village: true,
-        },
-      });
-      return NextResponse.json({
-        data,
-      });
-    }
-    const data = await prisma.laporan.findMany({
-      include: {
-        village: true,
-      },
-      where: {
-        user: {
-          id: userId,
-        },
-      },
+    const id = searchParams.get("id") ?? "";
+
+    const data = await prisma.comment.findMany({
+      where: { villageId: id },
+      include: { user: true },
+      orderBy: { createdAt: "desc" },
     });
     return NextResponse.json({
       data,

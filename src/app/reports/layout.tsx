@@ -1,5 +1,6 @@
 import Navbar from "@/components/ui/Navbar";
 import { auth } from "../auth";
+import { SessionProvider } from "next-auth/react";
 
 export default async function Layout({
   children,
@@ -10,7 +11,9 @@ export default async function Layout({
   return (
     <>
       <Navbar role={session?.user.role || ""}></Navbar>
-      <div>{children}</div>
+      <SessionProvider>
+        <div>{children}</div>
+      </SessionProvider>
     </>
   );
 }

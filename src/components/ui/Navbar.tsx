@@ -1,11 +1,13 @@
 "use client";
 
+import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
-export default function Navbar({role} : {role: string}) {
+export default function Navbar({ role }: { role: string }) {
   const [loginModal, setLoginModal] = useState(false);
-  
+
   const handleModal = () => {
     setLoginModal(!loginModal);
   };
@@ -38,10 +40,14 @@ export default function Navbar({role} : {role: string}) {
           ></Image>
         </div>
 
-        {role != "" && (
+        {role != "hantu" && (
           <div className="bg-stone-100 w-1/12 flex justify center flex-col p-2 rounded-lg absolute top-10 right-10">
-            <h1 className="font-semibold">Login</h1>
-            <h1 className="font-semibold">Logout</h1>
+            <Link href={"/login"} className="font-semibold">
+              Login
+            </Link>
+            <button onClick={() => signOut()} className="font-semibold">
+              Logout
+            </button>
           </div>
         )}
       </div>

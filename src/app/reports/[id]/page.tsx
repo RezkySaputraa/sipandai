@@ -3,14 +3,15 @@ import { useSession } from "next-auth/react";
 import { notFound, useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 
-export default function LaporanAnda() {
+export default function LaporanAnda({ params }: { params: any }) {
   const router = useRouter();
+  const { id } : { id : any} =  use(params);
   const session = useSession();
   const [tableData, setTableData] = useState<any>();
   
   useEffect(() => {
     const fetchDataTable = async () => {
-      const response = await fetch(`/api/village/laporan`);
+      const response = await fetch(`/api/village/laporan?userId=${id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch budget data");
       }
@@ -18,28 +19,33 @@ export default function LaporanAnda() {
       const result = await response.json();
       setTableData(result.data);
     };
-
-    fetchDataTable();
-  }, []);
+    
+    if (id) {
+      fetchDataTable();
+    }
+  }, [id]);
 
   const handleBack = () => {
     router.back();
   };
   
+  if (!id) {
+    notFound();
+  }
+  
  
   if (session.status === "unauthenticated") {
     notFound();
   }
-  if (session.status === "loading") {
+  
+  if (session.data?.user.id !== id && session.data?.user.role !== "admin") {
     return (
       <div className="text-black">
-        <h1>Loading...</h1>
+        <h1>Access Denied</h1>
       </div>
     );
   }
-  if (session.data?.user.role != "auditor") {
-    notFound();
-  }
+
   if (!tableData) {
     return (
       <div className="text-black">

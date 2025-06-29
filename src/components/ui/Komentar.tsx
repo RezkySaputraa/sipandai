@@ -43,11 +43,11 @@ export default function Komentar({
   
   return (
     <div>
-      <h1 className="font-bold text-xl md:text-2xl">
+      <h1 className="font-bold text-xl md:text-2xl mt-5  text-black">
         {comment.length} Komentar
       </h1>
       <KomentarForm villageId={id} role={role} UserId={userId} onCommentSubmit={refreshComments} />
-      <div className="mt-7">
+      <div className="mt-5">
         {comment.map((data : any) => (
           <Netizen
             key={data.id}

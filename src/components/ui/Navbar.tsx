@@ -1,8 +1,6 @@
 "use client";
-
-import { signOut } from "@/app/auth";
 import { getColor } from "@/utils/color";
-import { sign } from "crypto";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -48,8 +46,8 @@ export default function Navbar({ role }: { role: string }) {
             <Link href="/login" className="font-semibold">
               Login
             </Link>
-            <h1 className="font-semibold">Logout</h1>
-          </div>
+            <button  onClick={() => signOut()} className="font-semibold text-left">Logout</button>
+            </div>
         )}
       </div>
     </>

@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     };
 
     const body = {
-      model: "meta-llama/llama-3.3-8b-instruct:free",
+      model: "deepseek/deepseek-chat-v3-0324:free",
       messages: [
         {
           role: "system",
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
       response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.Llama}`,
+          Authorization: `Bearer ${process.env.Deepseek}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(body),

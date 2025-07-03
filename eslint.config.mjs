@@ -12,7 +12,6 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   
-  // Add your custom rules object here
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
